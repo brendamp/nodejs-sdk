@@ -1,7 +1,8 @@
 const request = require('superagent-promise')(require('superagent'), Promise)
+const qs = require('qs')
 
 const sdk = {
-  version: '0.9.0'
+  version: '0.9.1'
 }
 
 class Client {
@@ -31,9 +32,9 @@ class Client {
     return res.body
   }
 
-  async listTranscripts () {
-    const url = `${this.baseUrl}/v1/transcripts`
+  async listTranscripts (filter = {}) {
     const token = this.getToken()
+    const url = `${this.baseUrl}/v1/transcripts?${qs.stringify(filter)}`
 
     const res = await request
       .get(url)
